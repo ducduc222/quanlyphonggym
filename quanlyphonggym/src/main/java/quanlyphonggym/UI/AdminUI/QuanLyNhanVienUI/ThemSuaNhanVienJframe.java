@@ -8,12 +8,12 @@ package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
  *
  * @author nguyenduc
  */
-public class ThemNhanVienJframe extends javax.swing.JFrame {
+public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
 
     /**
      * Creates new form ThemNhanVienJframe
      */
-    public ThemNhanVienJframe() {
+    public ThemSuaNhanVienJframe() {
         initComponents();
     }
 
@@ -237,20 +237,21 @@ public class ThemNhanVienJframe extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThemNhanVienJframe().setVisible(true);
+                new ThemSuaNhanVienJframe().setVisible(true);
             }
         });
     }
