@@ -14,13 +14,14 @@ public class CDHoiVienChoPTCtrl {
 
         try {
             //check đã tồn tại chưa
-            String sql2 = "SELECT * FROM pt_hoivien WHERE idNhanVien = "+idPT+" and idHoiVien = "+idHoiVien;
+            String sql2 = "SELECT * FROM pt_hoivien WHERE idHoiVien = "+idHoiVien;
             PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
             ResultSet resultSet = preparedStatement2.executeQuery();
             if (resultSet.next()) {
                 JOptionPane.showMessageDialog(null, "Học viên đang được dạy");
                 return false;
             }
+
 
             //insert
             String sql = "INSERT INTO pt_hoivien (idNhanVien,idHoiVien)"

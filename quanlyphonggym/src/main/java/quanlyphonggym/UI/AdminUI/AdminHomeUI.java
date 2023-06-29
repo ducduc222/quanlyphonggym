@@ -7,6 +7,7 @@ package quanlyphonggym.UI.AdminUI;
 import quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI.QuanLyNhanVienPanel;
 
 import java.awt.*;
+import java.sql.SQLException;
 
 /**
  *
@@ -19,6 +20,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
      */
     public AdminHomeUI() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -68,7 +70,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
         jButtonNhanVien.setText("QUẢN LÝ NHÂN VIÊN");
         jButtonNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonNhanVienActionPerformed(evt);
+                try {
+                    jButtonNhanVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -175,7 +183,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
 //        ParentPanel.repaint();
     }//GEN-LAST:event_jButtonPhongTapActionPerformed
 
-    private void jButtonNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNhanVienActionPerformed
+    private void jButtonNhanVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonNhanVienActionPerformed
         // TODO add your handling code here:
         QuanLyNhanVienPanel quanLyNhanVienPanel = new QuanLyNhanVienPanel();
         ParentPanel.removeAll();

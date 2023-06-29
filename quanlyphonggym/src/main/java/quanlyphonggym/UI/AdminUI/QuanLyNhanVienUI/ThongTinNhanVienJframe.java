@@ -4,6 +4,16 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
 
+import quanlyphonggym.Bean.NhanVienBean;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.NhanVienCtrl;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import java.sql.SQLException;
+import java.util.EventObject;
+
 /**
  *
  * @author nguyenduc
@@ -18,11 +28,16 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         System.out.println("noooo");
     }
-    public ThongTinNhanVienJframe(int idNhanVien, boolean isPT) {
+    public ThongTinNhanVienJframe(int idNhanVien, boolean isPT) throws SQLException, ClassNotFoundException {
         initComponents();
         setLocationRelativeTo(null);
-        System.out.println("yesss");
-
+        this.idNhanVien = idNhanVien;
+        this.isPT = isPT;
+        if (!this.isPT) {
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+        }
+        loadData();
     }
 
     /**
@@ -112,15 +127,23 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
         jTableDanhSachHocVien.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jTableDanhSachHocVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Mã HV", "Họ tên", "Ngày sinh", "Giới tính", "Loại thành viên"
             }
         ));
+        danhSachHocVien = (DefaultTableModel) jTableDanhSachHocVien.getModel();
+        TableCellEditor nonEditableCellEditor = new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean isCellEditable(EventObject e) {
+                return false;
+            }
+        };
+        for (int column = 0; column < danhSachHocVien.getColumnCount(); column++) {
+            TableColumn tableColumn = jTableDanhSachHocVien.getColumnModel().getColumn(column);
+            tableColumn.setCellEditor(nonEditableCellEditor);
+        }
         jTableDanhSachHocVien.setRowHeight(30);
         jTableDanhSachHocVien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -137,7 +160,13 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
         jButton1.setText("Thêm học viên");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+                    jButton1ActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -269,14 +298,48 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTableDanhSachHocVienMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        DanhSachHocVienChoPTJframe danhSachHocVienChoPTJframe = new DanhSachHocVienChoPTJframe(idNhanVien);
+        danhSachHocVienChoPTJframe.setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        // xóa học viên cho PT
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public static void loadData() throws SQLException, ClassNotFoundException {
+        NhanVienBean nhanVienBean = new NhanVienBean();
+        NhanVienCtrl nhanVienCtrl = new NhanVienCtrl();
+
+        nhanVienBean = nhanVienCtrl.getNhanVienById(idNhanVien);
+        jLabelIdNhanVien.setText(String.valueOf(nhanVienBean.getNhanVien().getId()));
+        jLabelMaNhanVien.setText(nhanVienBean.getNhanVien().getMaNhanVien());
+        jLabelHoTen.setText(nhanVienBean.getNhanVien().getHoTen());
+        jLabelNgaySinh.setText(nhanVienBean.getNhanVien().getNgaySinh());
+        jLabelGioiTinh.setText(nhanVienBean.getNhanVien().getGioiTinh());
+        jLabelDiaChi.setText(nhanVienBean.getNhanVien().getDiaChi());
+        jLabelSoDienThoai.setText(nhanVienBean.getNhanVien().getSoDienThoai());
+        jLabelNgayVaoLam.setText(nhanVienBean.getNhanVien().getNgayVaoLam());
+        jLabelChucVu.setText(nhanVienBean.getRole().getTenRole());
+
+        if (nhanVienBean.isPT()) {
+            if (danhSachHocVien.getRowCount()>0) danhSachHocVien.setRowCount(0);
+            for (int i = 0; i<nhanVienBean.getDanhSachHoiVienChoPT().size(); i++) {
+                int idHocVien = nhanVienBean.getDanhSachHoiVienChoPT().get(i).getId();
+                String maHV = nhanVienBean.getDanhSachHoiVienChoPT().get(i).getMaHoiVien();
+                String hoTen = nhanVienBean.getDanhSachHoiVienChoPT().get(i).getHoTen();
+                String ngaySinh = nhanVienBean.getDanhSachHoiVienChoPT().get(i).getNgaySinh();
+                String gioTinh = nhanVienBean.getDanhSachHoiVienChoPT().get(i).getGioiTinh();
+                String loaiThanhVien = nhanVienBean.getDanhSachHoiVienChoPT().get(i).getLoaiThanhVien();
+
+                Object[] row = {idHocVien, maHV, hoTen, ngaySinh, gioTinh, loaiThanhVien};
+                danhSachHocVien.addRow(row);
+            }
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -325,18 +388,21 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelChucVu;
-    private javax.swing.JLabel jLabelDiaChi;
-    private javax.swing.JLabel jLabelGioiTinh;
-    private javax.swing.JLabel jLabelHoTen;
-    private javax.swing.JLabel jLabelIdNhanVien;
-    private javax.swing.JLabel jLabelMaNhanVien;
-    private javax.swing.JLabel jLabelNgaySinh;
-    private javax.swing.JLabel jLabelNgayVaoLam;
-    private javax.swing.JLabel jLabelSoDienThoai;
+    private static javax.swing.JLabel jLabelChucVu;
+    private static javax.swing.JLabel jLabelDiaChi;
+    private static javax.swing.JLabel jLabelGioiTinh;
+    private static javax.swing.JLabel jLabelHoTen;
+    private static javax.swing.JLabel jLabelIdNhanVien;
+    private static javax.swing.JLabel jLabelMaNhanVien;
+    private static javax.swing.JLabel jLabelNgaySinh;
+    private static javax.swing.JLabel jLabelNgayVaoLam;
+    private static javax.swing.JLabel jLabelSoDienThoai;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTableDanhSachHocVien;
     // End of variables declaration//GEN-END:variables
+    private static int idNhanVien;
+    private boolean isPT;
+    private static DefaultTableModel danhSachHocVien;
 }

@@ -24,8 +24,9 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
     /**
      * Creates new form QuanLyNhanVienPanel
      */
-    public QuanLyNhanVienPanel() {
+    public QuanLyNhanVienPanel() throws SQLException, ClassNotFoundException {
         initComponents();
+        loadData();
     }
 
     /**
@@ -74,7 +75,13 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         jTableNhanVien.setRowHeight(30);
         jTableNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableNhanVienMouseClicked(evt);
+                try {
+                    jTableNhanVienMouseClicked(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jTableNhanVienMouseEntered(evt);
@@ -184,7 +191,7 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
             danhSachNhanVien.addRow(row);
         }
     }
-    private void jTableNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNhanVienMouseClicked
+    private void jTableNhanVienMouseClicked(java.awt.event.MouseEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jTableNhanVienMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount()==2) {
             int row = jTableNhanVien.getSelectedRow();
@@ -192,7 +199,7 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
             String PT = (String) jTableNhanVien.getValueAt(row, 7);
             boolean isPT = false;
             if (PT.equals("PT")) isPT = true;
-            ThongTinNhanVienJframe thongTinNhanVienJframe = isPT ? new ThongTinNhanVienJframe (IdNhanVien, isPT) : new ThongTinNhanVienJframe();
+            ThongTinNhanVienJframe thongTinNhanVienJframe = new ThongTinNhanVienJframe (IdNhanVien, isPT);
             thongTinNhanVienJframe.setVisible(true);
         }
     }//GEN-LAST:event_jTableNhanVienMouseClicked

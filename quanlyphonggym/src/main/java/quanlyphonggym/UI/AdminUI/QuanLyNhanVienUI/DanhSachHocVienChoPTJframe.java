@@ -4,6 +4,18 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
 
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.CDHoiVienChoPTCtrl;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.DanhSachHoiVienCtrl;
+import quanlyphonggym.Models.HoiVien;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import java.sql.SQLException;
+import java.util.EventObject;
+import java.util.List;
+
 /**
  *
  * @author nguyenduc
@@ -13,8 +25,16 @@ public class DanhSachHocVienChoPTJframe extends javax.swing.JFrame {
     /**
      * Creates new form DanhSachHocVienChoPTJframe
      */
-    public DanhSachHocVienChoPTJframe() {
+    public DanhSachHocVienChoPTJframe() throws SQLException, ClassNotFoundException {
         initComponents();
+        setLocationRelativeTo(null);
+        loadData();
+    }
+    public DanhSachHocVienChoPTJframe(int idPT) throws SQLException, ClassNotFoundException {
+        this.idPT = idPT;
+        initComponents();
+        setLocationRelativeTo(null);
+        loadData();
     }
 
     /**
@@ -30,26 +50,40 @@ public class DanhSachHocVienChoPTJframe extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable1.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                    "ID", "Mã HV", "Họ tên", "Ngày sinh", "Giới tính", "Loại thành viên"
             }
         ));
+        danhSachHoiVien = (DefaultTableModel) jTable1.getModel();
+        TableCellEditor nonEditableCellEditor = new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean isCellEditable(EventObject e) {
+                return false;
+            }
+        };
+        for (int column = 0; column < danhSachHoiVien.getColumnCount(); column++) {
+            TableColumn tableColumn = jTable1.getColumnModel().getColumn(column);
+            tableColumn.setCellEditor(nonEditableCellEditor);
+        }
         jTable1.setRowHeight(30);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                try {
+                    jTable1MouseClicked(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -83,9 +117,36 @@ public class DanhSachHocVienChoPTJframe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int row = jTable1.getSelectedRow();
+            int idHoiVien = (int) danhSachHoiVien.getValueAt(row, 0);
+            CDHoiVienChoPTCtrl cdHoiVienChoPTCtrl = new CDHoiVienChoPTCtrl();
+            if (cdHoiVienChoPTCtrl.addNewHoiVienChoPT(idPT, idHoiVien)) {
+                ThongTinNhanVienJframe.loadData();
+                dispose();
+            }
+
+        }
+        return;
     }//GEN-LAST:event_jTable1MouseClicked
+    private void loadData() throws SQLException, ClassNotFoundException {
+        if (danhSachHoiVien.getRowCount()>0) danhSachHoiVien.setRowCount(0);
+        DanhSachHoiVienCtrl danhSachHoiVienCtrl = new DanhSachHoiVienCtrl();
+        List<HoiVien> hoiViens = danhSachHoiVienCtrl.getAllHoiVien();
+        for (int i = 0; i < hoiViens.size(); i++) {
+            int idHocVien = hoiViens.get(i).getId();
+            String maHV = hoiViens.get(i).getMaHoiVien();
+            String hoTen = hoiViens.get(i).getHoTen();
+            String ngaySinh = hoiViens.get(i).getNgaySinh();
+            String gioTinh = hoiViens.get(i).getGioiTinh();
+            String loaiThanhVien = hoiViens.get(i).getLoaiThanhVien();
+            Object[] row = {idHocVien, maHV, hoTen, ngaySinh, gioTinh, loaiThanhVien};
+            danhSachHoiVien.addRow(row);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -117,7 +178,13 @@ public class DanhSachHocVienChoPTJframe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DanhSachHocVienChoPTJframe().setVisible(true);
+                try {
+                    new DanhSachHocVienChoPTJframe().setVisible(true);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
@@ -127,4 +194,6 @@ public class DanhSachHocVienChoPTJframe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+    private DefaultTableModel danhSachHoiVien;
+    private int idPT;
 }
