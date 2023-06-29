@@ -4,6 +4,12 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import java.util.EventObject;
+
 /**
  *
  * @author nguyenduc
@@ -49,6 +55,17 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        danhSachNhanVien = (DefaultTableModel) jTableNhanVien.getModel();
+        TableCellEditor nonEditableCellEditor = new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean isCellEditable(EventObject e) {
+                return false;
+            }
+        };
+        for (int column = 0; column < danhSachNhanVien.getColumnCount(); column++) {
+            TableColumn tableColumn = jTableNhanVien.getColumnModel().getColumn(column);
+            tableColumn.setCellEditor(nonEditableCellEditor);
+        }
         jTableNhanVien.setToolTipText("");
         jTableNhanVien.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTableNhanVien.setFocusable(false);
@@ -191,4 +208,5 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableNhanVien;
     // End of variables declaration//GEN-END:variables
+    private DefaultTableModel danhSachNhanVien;
 }
