@@ -4,6 +4,10 @@
  */
 package quanlyphonggym.UI.AdminUI;
 
+import quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI.QuanLyNhanVienPanel;
+
+import java.awt.*;
+
 /**
  *
  * @author nguyenduc
@@ -173,12 +177,12 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
     private void jButtonNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNhanVienActionPerformed
         // TODO add your handling code here:
-//        HoKhauHomeView hoKhauHomeView = new HoKhauHomeView();
-//        ParentPanel.removeAll();
-//        ParentPanel.setLayout(new BorderLayout());
-//        ParentPanel.add(hoKhauHomeView);
-//        ParentPanel.validate();
-//        ParentPanel.repaint();
+        QuanLyNhanVienPanel quanLyNhanVienPanel = new QuanLyNhanVienPanel();
+        ParentPanel.removeAll();
+        ParentPanel.setLayout(new BorderLayout());
+        ParentPanel.add(quanLyNhanVienPanel);
+        ParentPanel.validate();
+        ParentPanel.repaint();
     }//GEN-LAST:event_jButtonNhanVienActionPerformed
 
     private void jButtonHoiVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHoiVienActionPerformed

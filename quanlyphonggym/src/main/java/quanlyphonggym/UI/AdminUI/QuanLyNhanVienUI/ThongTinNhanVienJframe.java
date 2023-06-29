@@ -15,6 +15,14 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
      */
     public ThongTinNhanVienJframe() {
         initComponents();
+        setLocationRelativeTo(null);
+        System.out.println("noooo");
+    }
+    public ThongTinNhanVienJframe(int idNhanVien, boolean isPT) {
+        initComponents();
+        setLocationRelativeTo(null);
+        System.out.println("yesss");
+
     }
 
     /**

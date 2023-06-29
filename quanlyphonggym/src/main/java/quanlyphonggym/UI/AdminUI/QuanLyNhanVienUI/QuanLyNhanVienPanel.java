@@ -4,11 +4,16 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
 
+import quanlyphonggym.Bean.NhanVienBean;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.NhanVienCtrl;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
+import java.sql.SQLException;
 import java.util.EventObject;
+import java.util.List;
 
 /**
  *
@@ -46,13 +51,10 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         jTableNhanVien.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
         jTableNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"fdds", "dsfgsd", "df", null},
-                {null, null, null, null},
-                {null, "dfdf", null, null},
-                {null, "dfdf", null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Nhân viên", "Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính","Địa chỉ", "Số điện thoại", "Chức vụ"
             }
         ));
         danhSachNhanVien = (DefaultTableModel) jTableNhanVien.getModel();
@@ -163,14 +165,36 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadData() throws SQLException, ClassNotFoundException {
+        if (danhSachNhanVien.getRowCount()>0) danhSachNhanVien.setRowCount(0);
+        NhanVienCtrl nhanVienCtrl = new NhanVienCtrl();
+        List<NhanVienBean> nhanVienBeans = nhanVienCtrl.getAllNhanVien();
+        for (int i = 0; i<nhanVienBeans.size(); i++) {
+
+            int idNhanVien = nhanVienBeans.get(i).getNhanVien().getId();
+            String maNhanVien = nhanVienBeans.get(i).getNhanVien().getMaNhanVien();
+            String hoTen = nhanVienBeans.get(i).getNhanVien().getHoTen();
+            String ngaySinh = nhanVienBeans.get(i).getNhanVien().getNgaySinh();
+            String gioiTinh = nhanVienBeans.get(i).getNhanVien().getGioiTinh();
+            String diaChi = nhanVienBeans.get(i).getNhanVien().getDiaChi();
+            String soDienThoai = nhanVienBeans.get(i).getNhanVien().getSoDienThoai();
+            String chucVu = nhanVienBeans.get(i).getRole().getTenRole();
+
+            Object[] row = {idNhanVien, maNhanVien, hoTen, ngaySinh, gioiTinh, diaChi, soDienThoai, chucVu};
+            danhSachNhanVien.addRow(row);
+        }
+    }
     private void jTableNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNhanVienMouseClicked
         // TODO add your handling code here:
-//        if (evt.getClickCount()==2) {
-//            int row = jTableNhanVien.getSelectedRow();
-//            int IdNhanKhau = (int) jTableNhanVien.getValueAt(row, 0);
-//            ThongTinChiTietNhanKhau thongTinChiTietNhanKhau = new ThongTinChiTietNhanKhau(IdNhanKhau);
-//            thongTinChiTietNhanKhau.setVisible(true);
-//        }
+        if (evt.getClickCount()==2) {
+            int row = jTableNhanVien.getSelectedRow();
+            int IdNhanVien = (int) jTableNhanVien.getValueAt(row, 0);
+            String PT = (String) jTableNhanVien.getValueAt(row, 7);
+            boolean isPT = false;
+            if (PT.equals("PT")) isPT = true;
+            ThongTinNhanVienJframe thongTinNhanVienJframe = isPT ? new ThongTinNhanVienJframe (IdNhanVien, isPT) : new ThongTinNhanVienJframe();
+            thongTinNhanVienJframe.setVisible(true);
+        }
     }//GEN-LAST:event_jTableNhanVienMouseClicked
 
     private void jTableNhanVienMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNhanVienMouseEntered
