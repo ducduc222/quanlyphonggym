@@ -4,7 +4,12 @@ import quanlyphonggym.Bean.HoiVienBean;
 import quanlyphonggym.Models.HoiVien;
 import quanlyphonggym.Models.LichSu;
 import quanlyphonggym.Models.Role;
+import quanlyphonggym.MysqlConnection;
 
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +27,29 @@ public class HoiVienCtrl {
         return hoiVienBean;
     }
 
-    public boolean updateThongTinCaNhan(HoiVien hoiVien) {
+    public boolean updateThongTinCaNhan(HoiVien hoiVien) throws SQLException, ClassNotFoundException {
         //code
+        Connection connection = MysqlConnection.getMysqlConnection();
+        try {
+            String sql = "UPDATE hoivien SET "
+            +" maHoiVien = '" +hoiVien.getMaHoiVien()
+            +"', hoTen =  '"+hoiVien.getHoTen()
+            +"', ngaySinh = '"+hoiVien.getNgaySinh()
+            +"', gioiTinh = '"+hoiVien.getGioiTinh()
+            +"', ngheNghiep = '"+hoiVien.getNgheNghiep()
+            +"', diaChi = '"+hoiVien.getDiaChi()
+            +"', soDienThoai = '"+hoiVien.getSoDienThoai()
+            +"' WHERE id = "+hoiVien.getId();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.execute();
+            preparedStatement.close();
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
+            System.out.println(e.getMessage());
+            connection.close();
+            return false;
+        }
+        connection.close();
         return true;
     }
     public List<LichSu> getLichSuPhongTap(int idHoiVien) {
