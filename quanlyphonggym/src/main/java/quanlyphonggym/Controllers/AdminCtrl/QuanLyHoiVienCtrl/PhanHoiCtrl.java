@@ -68,6 +68,7 @@ public class PhanHoiCtrl {
             Date date = new Date();
             String sqlAD = "";
             if (phanHoiBean.getPhanHoiCuaHoiVien().getIsDaPhanHoiLai()) {
+
                 String ngayPhanHoi = TimeStampForm.returnTimeStampString(date.getTime());
                 sqlAD = "UPDATE phanhoicuaadmin SET noiDung = '"+phanHoiBean.getPhanHoiCuaAdmin().getNoiDung()+
                         "',ngayPhanHoi = '"+ngayPhanHoi

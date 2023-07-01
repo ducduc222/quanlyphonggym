@@ -24,10 +24,8 @@ public class ThongTinHoiVienPanel extends javax.swing.JPanel {
     /**
      * Creates new form ThongTinHoiVienPanel
      */
-    public ThongTinHoiVienPanel() {
-        initComponents();
-    }
-    public ThongTinHoiVienPanel(HoiVienBean hoiVienBean) throws ParseException {
+
+    public ThongTinHoiVienPanel() throws ParseException {
         initComponents();
 
         loadData(HoiVienHomeUI.hoiVienBean);

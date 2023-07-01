@@ -4,6 +4,17 @@
  */
 package quanlyphonggym.UI.AuthUI;
 
+import quanlyphonggym.Controllers.AuthCtrl.LoginCtrl;
+import quanlyphonggym.Models.User;
+import quanlyphonggym.Session;
+import quanlyphonggym.UI.AdminUI.AdminHomeUI;
+import quanlyphonggym.UI.HoiVienUI.HoiVienHomeUI;
+
+import javax.swing.*;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Arrays;
+
 /**
  *
  * @author nguyenduc
@@ -15,6 +26,7 @@ public class LoginUI extends javax.swing.JFrame {
      */
     public LoginUI() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -52,7 +64,15 @@ public class LoginUI extends javax.swing.JFrame {
         jButtonLogin.setText("Login");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLoginActionPerformed(evt);
+                try {
+                    jButtonLoginActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -123,48 +143,41 @@ public class LoginUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
+    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException, ParseException {//GEN-FIRST:event_jButtonLoginActionPerformed
+        if (jTextFieldUsername.getText().isEmpty()
+        || jPassword.getPassword() == null) {
+            JOptionPane.showMessageDialog(null, "Hãy nhập username/password");
+            return;
+        }
 
+        LoginCtrl loginCtrl = new LoginCtrl();
+        User user = new User();
+        user.setUsername(jTextFieldUsername.getText());
+        user.setPassword(Arrays.toString(jPassword.getPassword()));
+        System.out.println(user.getPassword());
+
+        if (loginCtrl.checkLogin(user)) {
+            if (Session.isIsAdmin()) {
+                AdminHomeUI adminHomeUI = new AdminHomeUI();
+                adminHomeUI.setVisible(true);
+                dispose();
+            } else {
+                HoiVienHomeUI hoiVienHomeUI = new HoiVienHomeUI(Session.getIdHoiVien());
+                hoiVienHomeUI.setVisible(true);
+                dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Uername hoặc Password không đúng");
+            return;
+        }
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
         // TODO add your handling code here:
+        RegisterUI registerUI = new RegisterUI();
+        registerUI.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonRegisterActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;

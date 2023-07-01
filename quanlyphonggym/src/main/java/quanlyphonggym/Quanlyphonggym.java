@@ -4,6 +4,8 @@
 
 package quanlyphonggym;
 
+import quanlyphonggym.UI.AuthUI.LoginUI;
+
 /**
  *
  * @author nguyenduc
@@ -11,6 +13,8 @@ package quanlyphonggym;
 public class Quanlyphonggym {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        LoginUI loginUI = new LoginUI();
+        loginUI.setVisible(true);
+//        System.out.println("Hello World!");
     }
 }

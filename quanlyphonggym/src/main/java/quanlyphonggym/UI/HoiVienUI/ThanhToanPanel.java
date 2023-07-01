@@ -26,6 +26,15 @@ public class ThanhToanPanel extends javax.swing.JPanel {
 
     private void loadData(HoiVienBean hoiVienBean2) {
         this.hoiVienBean = hoiVienBean2;
+        if (hoiVienBean.getGoiTapHienTai().getDangKyGoiTap() == null)
+        {
+            jTextGoiTapHienTai.setText("Bạn chưa đăng ký gói tập nào");
+            jTextNgayDangKy.setText("");
+            jTextNgayBatDau.setText("");
+            jTextNgayKetThuc.setText("");
+            jTextSoTien.setText("");
+            return;
+        }
         if (hoiVienBean.getGoiTapHienTai().getDangKyGoiTap().getTrangThaiThanhToan()) {
             jTextGoiTapHienTai.setText("Bạn đã thanh toán tất cả gói tập");
             jTextNgayDangKy.setText("");
@@ -160,6 +169,10 @@ public class ThanhToanPanel extends javax.swing.JPanel {
 
     private void jButtonThanhToanActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonThanhToanActionPerformed
         // TODO add your handling code here:
+        if (jTextSoTien.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không có đơn hàng");
+            return;
+        }
         int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Thanh toán?", "Thoát", JOptionPane.YES_NO_OPTION);
         if (confirmResult == JOptionPane.YES_OPTION) {
             ThanhToanCtrl thanhToanCtrl = new ThanhToanCtrl();

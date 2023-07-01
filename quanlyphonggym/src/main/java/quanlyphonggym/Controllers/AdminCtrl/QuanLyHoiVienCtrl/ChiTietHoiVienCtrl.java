@@ -59,6 +59,7 @@ public class ChiTietHoiVienCtrl {
                 goiTap.setId(resultSet2.getInt("goitap.id"));
                 goiTap.setTenGoiTap(resultSet2.getString("goitap.tenGoiTap"));
                 goiTap.setNoiDungHinhThuc(resultSet2.getString("goitap.noiDungHinhThuc"));
+                goiTap.setSoTien(resultSet2.getInt("soTien"));
                 goiTapHienTai.setGoiTap(goiTap);
 
                 DangKyGoiTap dangKyGoiTap = new DangKyGoiTap();
@@ -78,7 +79,7 @@ public class ChiTietHoiVienCtrl {
 
 //          get  List<DangKyGoiTapBean> danhSachGoiTapDaDangKy = new ArrayList<>();
             String sql3 = "SELECT dangkygoitap.*, goitap.* FROM dangkygoitap"+
-                    " LEFT JOIN goitap ON goitap.id = dangkygoitap.idGoiTap ";
+                    " LEFT JOIN goitap ON goitap.id = dangkygoitap.idGoiTap WHERE dangkygoitap.idHoiVien = "+idHoiVien;
             PreparedStatement preparedStatement3 = connection.prepareStatement(sql3);
             ResultSet resultSet3 = preparedStatement3.executeQuery();
             while (resultSet3.next()) {

@@ -1,13 +1,23 @@
 package quanlyphonggym;
 
 public class Session {
-    private static int idUser;
+    private static int idHoiVien;
+    private static boolean isAdmin;
 
-    public static int getIdAdmin() {
-        return idUser;
+
+    public static int getIdHoiVien() {
+        return idHoiVien;
     }
 
-    public static void setIdAdmin(int idUser) {
-        Session.idUser = idUser;
+    public static void setIdHoiVien(int idHoiVien) {
+        Session.idHoiVien = idHoiVien;
+    }
+
+    public static boolean isIsAdmin() {
+        return isAdmin;
+    }
+
+    public static void setIsAdmin(boolean isAdmin) {
+        Session.isAdmin = isAdmin;
     }
 }

@@ -4,6 +4,16 @@
  */
 package quanlyphonggym.UI.CHECKIN;
 
+import quanlyphonggym.Bean.NhanVienBean;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.NhanVienCtrl;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyPhongTapCtrl.PhongTapCtrl;
+import quanlyphonggym.Controllers.CheckInNhanVienCtrl;
+import quanlyphonggym.Models.PhongTap;
+
+import javax.swing.*;
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author nguyenduc
@@ -13,11 +23,28 @@ public class CheckInNhanVienUI extends javax.swing.JFrame {
     /**
      * Creates new form CheckInNhanVien
      */
-    public CheckInNhanVienUI() {
+    public CheckInNhanVienUI() throws SQLException, ClassNotFoundException {
         initComponents();
         setLocationRelativeTo(null);
+        loadData();
     }
+    private void loadData() throws SQLException, ClassNotFoundException {
+        jComboPhong.removeAllItems();
+        jComboIdNhanVien.removeAllItems();
 
+        NhanVienCtrl nhanVienCtrl = new NhanVienCtrl();
+        PhongTapCtrl phongTapCtrl = new PhongTapCtrl();
+
+        List<NhanVienBean> nhanVienBeans = nhanVienCtrl.getAllNhanVien();
+        List<PhongTap> phongTaps = phongTapCtrl.getAllPhongTap();
+
+        for (int i = 0; i < nhanVienBeans.size(); i++) {
+            jComboIdNhanVien.addItem(String.valueOf(nhanVienBeans.get(i).getNhanVien().getId()));
+        }
+        for (int i = 0; i<phongTaps.size(); i++) {
+            jComboPhong.addItem(String.valueOf(phongTaps.get(i).getId()));
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,7 +98,13 @@ public class CheckInNhanVienUI extends javax.swing.JFrame {
         jButtonCheckIn.setText("CheckIn");
         jButtonCheckIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckInActionPerformed(evt);
+                try {
+                    jButtonCheckInActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -135,8 +168,17 @@ public class CheckInNhanVienUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel2AncestorAdded
 
-    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInActionPerformed
+    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonCheckInActionPerformed
         // TODO add your handling code here:
+        int idNhanVien = Integer.parseInt((String) jComboIdNhanVien.getSelectedItem());
+        int idPhongTap = Integer.parseInt((String) jComboPhong.getSelectedItem());
+
+        CheckInNhanVienCtrl checkInNhanVienCtrl = new CheckInNhanVienCtrl();
+        if (checkInNhanVienCtrl.checkIn(idNhanVien, idPhongTap)) {
+            JOptionPane.showMessageDialog(null, "Checkin thành công");
+            return;
+        }
+
     }//GEN-LAST:event_jButtonCheckInActionPerformed
 
 

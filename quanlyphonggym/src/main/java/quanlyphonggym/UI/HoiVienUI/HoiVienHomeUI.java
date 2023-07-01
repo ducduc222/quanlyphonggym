@@ -30,7 +30,7 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         loadData();
 
-        ThongTinHoiVienPanel thongTinHoiVienPanel = new ThongTinHoiVienPanel(this.hoiVienBean);
+        ThongTinHoiVienPanel thongTinHoiVienPanel = new ThongTinHoiVienPanel();
         ParentPanel.removeAll();
         ParentPanel.setLayout(new BorderLayout());
         ParentPanel.add(thongTinHoiVienPanel);
@@ -38,11 +38,14 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
         ParentPanel.repaint();
     }
     public HoiVienHomeUI(int idHoiVien) throws SQLException, ClassNotFoundException, ParseException {
+        initComponents();
+        setLocationRelativeTo(null);
         this.idHoiVien = idHoiVien;
         initComponents();
         setLocationRelativeTo(null);
         loadData();
-        ThongTinHoiVienPanel thongTinHoiVienPanel = new ThongTinHoiVienPanel(this.hoiVienBean);
+
+        ThongTinHoiVienPanel thongTinHoiVienPanel = new ThongTinHoiVienPanel();
         ParentPanel.removeAll();
         ParentPanel.setLayout(new BorderLayout());
         ParentPanel.add(thongTinHoiVienPanel);
@@ -69,6 +72,7 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
         jButtonLichSuTapLuyen = new javax.swing.JButton();
         jButtonDangKyGoiTap = new javax.swing.JButton();
         jButtonThanhToan = new javax.swing.JButton();
+        jButtonPhanHoi = new javax.swing.JButton();
         ParentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -85,6 +89,10 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
                 try {
                     jButtonTrangChuActionPerformed(evt);
                 } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -123,6 +131,21 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonPhanHoi.setBackground(new java.awt.Color(204, 255, 204));
+        jButtonPhanHoi.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
+        jButtonPhanHoi.setText("PHẢN HỒI");
+        jButtonPhanHoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    jButtonPhanHoiActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,9 +158,10 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonPhanHoi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonDangKyGoiTap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonLichSuTapLuyen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButtonLichSuTapLuyen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -150,7 +174,9 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
                 .addComponent(jButtonDangKyGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 467, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonPhanHoi, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 392, Short.MAX_VALUE))
         );
 
         ParentPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -185,9 +211,10 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonTrangChuActionPerformed(java.awt.event.ActionEvent evt) throws ParseException {//GEN-FIRST:event_jButtonTrangChuActionPerformed
+    private void jButtonTrangChuActionPerformed(java.awt.event.ActionEvent evt) throws ParseException, SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonTrangChuActionPerformed
         // TODO add your handling code here:
-                ThongTinHoiVienPanel thongTinHoiVienPanel = new ThongTinHoiVienPanel(hoiVienBean);
+        loadData();
+                ThongTinHoiVienPanel thongTinHoiVienPanel = new ThongTinHoiVienPanel();
                 ParentPanel.removeAll();
                 ParentPanel.setLayout(new BorderLayout());
                 ParentPanel.add(thongTinHoiVienPanel);
@@ -225,53 +252,22 @@ public class HoiVienHomeUI extends javax.swing.JFrame {
         ParentPanel.repaint();
     }//GEN-LAST:event_jButtonThanhToanActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HoiVienHomeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HoiVienHomeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HoiVienHomeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HoiVienHomeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButtonPhanHoiActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonPhanHoiActionPerformed
+        // TODO add your handling code here:
+        PhanHoiPanel phanHoiPanel = new PhanHoiPanel();
+        ParentPanel.removeAll();
+        ParentPanel.setLayout(new BorderLayout());
+        ParentPanel.add(phanHoiPanel);
+        ParentPanel.validate();
+        ParentPanel.repaint();
+    }//GEN-LAST:event_jButtonPhanHoiActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new HoiVienHomeUI().setVisible(true);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ParentPanel;
     private javax.swing.JButton jButtonDangKyGoiTap;
     private javax.swing.JButton jButtonLichSuTapLuyen;
+    private javax.swing.JButton jButtonPhanHoi;
     private javax.swing.JButton jButtonThanhToan;
     private javax.swing.JButton jButtonTrangChu;
     private javax.swing.JPanel jPanel1;

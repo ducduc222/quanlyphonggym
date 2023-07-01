@@ -4,6 +4,8 @@
  */
 package quanlyphonggym.UI.CHECKIN;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author nguyenduc
@@ -31,7 +33,7 @@ public class CheckInUI extends javax.swing.JFrame {
         jButtonCheckInNhanVien = new javax.swing.JButton();
         jButtonCheckInHoiVien = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -39,7 +41,13 @@ public class CheckInUI extends javax.swing.JFrame {
         jButtonCheckInNhanVien.setText("CHECKIN Nhân viên");
         jButtonCheckInNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckInNhanVienActionPerformed(evt);
+                try {
+                    jButtonCheckInNhanVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -47,7 +55,13 @@ public class CheckInUI extends javax.swing.JFrame {
         jButtonCheckInHoiVien.setText("CHECKIN Hội viên");
         jButtonCheckInHoiVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckInHoiVienActionPerformed(evt);
+                try {
+                    jButtonCheckInHoiVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -86,14 +100,14 @@ public class CheckInUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCheckInNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInNhanVienActionPerformed
+    private void jButtonCheckInNhanVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonCheckInNhanVienActionPerformed
         // TODO add your handling code here:
         CheckInNhanVienUI checkInNhanVien = new CheckInNhanVienUI();
         checkInNhanVien.setVisible(true);
         
     }//GEN-LAST:event_jButtonCheckInNhanVienActionPerformed
 
-    private void jButtonCheckInHoiVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInHoiVienActionPerformed
+    private void jButtonCheckInHoiVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonCheckInHoiVienActionPerformed
         // TODO add your handling code here:
         CheckInHoiVienUI checkInHoiVien = new CheckInHoiVienUI();
         checkInHoiVien.setVisible(true);

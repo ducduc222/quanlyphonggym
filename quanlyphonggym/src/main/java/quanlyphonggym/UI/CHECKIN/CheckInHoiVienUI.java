@@ -4,6 +4,15 @@
  */
 package quanlyphonggym.UI.CHECKIN;
 
+import quanlyphonggym.Bean.HoiVienBean;
+import quanlyphonggym.Controllers.CheckInHoiVienCtrl;
+import quanlyphonggym.Controllers.HoiVienCtrl.HoiVienCtrl;
+import quanlyphonggym.Models.HoiVien;
+
+import javax.swing.*;
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author nguyenduc
@@ -13,11 +22,19 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
     /**
      * Creates new form CheckInHoiVien
      */
-    public CheckInHoiVienUI() {
+    public CheckInHoiVienUI() throws SQLException, ClassNotFoundException {
         initComponents();
         setLocationRelativeTo(null);
+        loadData();
     }
-
+    private void loadData() throws SQLException, ClassNotFoundException {
+        HoiVienCtrl hoiVienCtrl = new HoiVienCtrl();
+        List<HoiVien> hoiViens = hoiVienCtrl.getAllHoiVien();
+        jComboxHoiVien.removeAllItems();
+        for (int i = 0; i<hoiViens.size(); i++) {
+            jComboxHoiVien.addItem(String.valueOf(hoiViens.get(i).getId()));
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,8 +47,6 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboxHoiVien = new javax.swing.JComboBox<>();
-        jComboPhong = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
         jButtonCheckIn = new javax.swing.JButton();
         jButtonCheckOut = new javax.swing.JButton();
 
@@ -54,25 +69,17 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
 
         jComboxHoiVien.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboPhong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        jLabel2.setText("Phòng:");
-        jLabel2.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jLabel2AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-
         jButtonCheckIn.setBackground(new java.awt.Color(255, 255, 204));
         jButtonCheckIn.setText("CheckIn");
         jButtonCheckIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckInActionPerformed(evt);
+                try {
+                    jButtonCheckInActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -80,7 +87,13 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
         jButtonCheckOut.setText("CheckOut");
         jButtonCheckOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckOutActionPerformed(evt);
+                try {
+                    jButtonCheckOutActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -92,36 +105,28 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboxHoiVien, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboxHoiVien, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboxHoiVien, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(36, 36, 36))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,7 +137,7 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -142,16 +147,22 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel1AncestorAdded
 
-    private void jLabel2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel2AncestorAdded
+    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonCheckInActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2AncestorAdded
-
-    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInActionPerformed
-        // TODO add your handling code here:
+        int idHoiVien = Integer.parseInt((String) jComboxHoiVien.getSelectedItem());
+        CheckInHoiVienCtrl checkInHoiVienCtrl = new CheckInHoiVienCtrl();
+        if (checkInHoiVienCtrl.checkIn(idHoiVien)) {
+            JOptionPane.showMessageDialog(null, "Checkin thành công");
+        }
     }//GEN-LAST:event_jButtonCheckInActionPerformed
 
-    private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
+    private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonCheckOutActionPerformed
         // TODO add your handling code here:
+        int idHoiVien = Integer.parseInt((String) jComboxHoiVien.getSelectedItem());
+        CheckInHoiVienCtrl checkInHoiVienCtrl = new CheckInHoiVienCtrl();
+        if (checkInHoiVienCtrl.checkOut(idHoiVien)) {
+            JOptionPane.showMessageDialog(null, "CheckOut thành công");
+        }
     }//GEN-LAST:event_jButtonCheckOutActionPerformed
 
 
@@ -159,10 +170,8 @@ public class CheckInHoiVienUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCheckIn;
     private javax.swing.JButton jButtonCheckOut;
-    private javax.swing.JComboBox<String> jComboPhong;
     private javax.swing.JComboBox<String> jComboxHoiVien;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,5 +1,6 @@
 package quanlyphonggym.Controllers.HoiVienCtrl;
 
+import com.sun.security.auth.NTNumericCredential;
 import quanlyphonggym.Bean.HoiVienBean;
 import quanlyphonggym.Models.HoiVien;
 import quanlyphonggym.Models.LichSu;
@@ -9,16 +10,35 @@ import quanlyphonggym.MysqlConnection;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HoiVienCtrl {
-    public List<HoiVienBean> getAllHoiVien() {
-        List<HoiVienBean> hoiVienBeans = new ArrayList<>();
+    public List<HoiVien> getAllHoiVien() throws SQLException, ClassNotFoundException {
+        List<HoiVien> hoiViens = new ArrayList<>();
         //code
+        Connection connection = MysqlConnection.getMysqlConnection();
+        try {
+            String sql = "SELECT* FROM hoivien";
+            PreparedStatement p = connection.prepareStatement(sql);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                HoiVien hoiVien = new HoiVien();
+                hoiVien.setId(rs.getInt(1));
 
-        return hoiVienBeans;
+                hoiViens.add(hoiVien);
+            }
+            p.close();
+        } catch (SQLException E) {
+            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
+            System.out.println(E.getMessage());
+            connection.close();
+            return null;
+        }
+
+        return hoiViens;
     }
     public HoiVienBean getThongTinHoiVien(int idHoiVien) {
         HoiVienBean hoiVienBean = new HoiVienBean();
