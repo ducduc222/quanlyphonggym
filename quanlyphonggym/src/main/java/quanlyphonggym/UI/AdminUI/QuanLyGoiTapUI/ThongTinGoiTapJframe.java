@@ -4,6 +4,18 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyGoiTapUI;
 
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyGoiTap.GoiTapCtrl;
+import quanlyphonggym.Models.GoiTap;
+import quanlyphonggym.Models.HoiVien;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import java.sql.SQLException;
+import java.util.EventObject;
+import java.util.List;
+
 /**
  *
  * @author nguyenduc
@@ -15,6 +27,13 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
      */
     public ThongTinGoiTapJframe() {
         initComponents();
+        setLocationRelativeTo(null);
+    }
+    public ThongTinGoiTapJframe(int idGoiTap) throws SQLException, ClassNotFoundException {
+        this.idGoiTap = idGoiTap;
+        initComponents();
+        setLocationRelativeTo(null);
+        loadData();
     }
 
     /**
@@ -30,18 +49,19 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextIdGoiTap = new javax.swing.JTextField();
+        jTextTenGoiTap = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextNoiDungHinhThuc = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextSoTien = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableDanhSachHoiVien = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Thông tin gói tập");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -54,9 +74,9 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jLabel5.setText("Nội dung hình thức:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextNoiDungHinhThuc.setColumns(20);
+        jTextNoiDungHinhThuc.setRows(5);
+        jScrollPane1.setViewportView(jTextNoiDungHinhThuc);
 
         jLabel6.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jLabel6.setText("Giá tiền:");
@@ -64,20 +84,28 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jLabel7.setText("Danh sách hội viên sử dụng gói tập:");
 
-        jTable1.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableDanhSachHoiVien.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        jTableDanhSachHoiVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new String [] {
+                        "ID", "Mã HV", "Họ tên", "Ngày sinh", "Giới tính"
+                }
         ));
-        jTable1.setRowHeight(30);
-        jScrollPane2.setViewportView(jTable1);
+        danhSachHoiVien = (DefaultTableModel) jTableDanhSachHoiVien.getModel();
+        TableCellEditor nonEditableCellEditor = new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean isCellEditable(EventObject e) {
+                return false;
+            }
+        };
+        for (int column = 0; column < danhSachHoiVien.getColumnCount(); column++) {
+            TableColumn tableColumn = jTableDanhSachHoiVien.getColumnModel().getColumn(column);
+            tableColumn.setCellEditor(nonEditableCellEditor);
+        }
+        jTableDanhSachHoiVien.setRowHeight(30);
+        jScrollPane2.setViewportView(jTableDanhSachHoiVien);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -95,16 +123,15 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField3)))
+                                    .addComponent(jTextTenGoiTap)
+                                    .addComponent(jTextIdGoiTap)
+                                    .addComponent(jTextSoTien)))
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -115,11 +142,11 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextIdGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextTenGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -127,7 +154,7 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,6 +178,27 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadData() throws SQLException, ClassNotFoundException {
+        GoiTapCtrl goiTapCtrl = new GoiTapCtrl();
+        GoiTap goiTap = goiTapCtrl.getGoiTapById(this.idGoiTap);
+        jTextIdGoiTap.setText(String.valueOf(goiTap.getId()));
+        jTextTenGoiTap.setText(goiTap.getTenGoiTap());
+        jTextSoTien.setText(String.valueOf(goiTap.getSoTien()));
+        jTextNoiDungHinhThuc.setText(goiTap.getNoiDungHinhThuc());
+
+        if (danhSachHoiVien.getRowCount()>0) danhSachHoiVien.setRowCount(0);
+        List<HoiVien> hoiViens = goiTapCtrl.getAllNguoiDangKyGoiTap(idGoiTap);
+        for (int i = 0; i<hoiViens.size(); i++) {
+            int idHocVien = hoiViens.get(i).getId();
+            String maHV = hoiViens.get(i).getMaHoiVien();
+            String hoTen = hoiViens.get(i).getHoTen();
+            String ngaySinh = hoiViens.get(i).getNgaySinh();
+            String gioTinh = hoiViens.get(i).getGioiTinh();
+
+            Object[] row = {idHocVien, maHV, hoTen, ngaySinh, gioTinh};
+            danhSachHoiVien.addRow(row);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -196,10 +244,12 @@ public class ThongTinGoiTapJframe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable jTableDanhSachHoiVien;
+    private javax.swing.JTextField jTextIdGoiTap;
+    private javax.swing.JTextArea jTextNoiDungHinhThuc;
+    private javax.swing.JTextField jTextSoTien;
+    private javax.swing.JTextField jTextTenGoiTap;
     // End of variables declaration//GEN-END:variables
+    private int idGoiTap;
+    private DefaultTableModel danhSachHoiVien;
 }

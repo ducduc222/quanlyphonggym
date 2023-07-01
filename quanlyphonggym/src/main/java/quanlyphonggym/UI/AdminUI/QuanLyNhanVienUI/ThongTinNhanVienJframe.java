@@ -5,6 +5,7 @@
 package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
 
 import quanlyphonggym.Bean.NhanVienBean;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.CDHoiVienChoPTCtrl;
 import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.NhanVienCtrl;
 
 import javax.swing.*;
@@ -175,7 +176,13 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
         jButton2.setText("Xóa học viên");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                try {
+                    jButton2ActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -305,9 +312,21 @@ public class ThongTinNhanVienJframe extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         // xóa học viên cho PT
+        int row = jTableDanhSachHocVien.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Hãy chọn học viên");
+            return;
+        }
+        int idHocVien = (int) danhSachHocVien.getValueAt(row, 0);
+        CDHoiVienChoPTCtrl cdHoiVienChoPTCtrl = new CDHoiVienChoPTCtrl();
+        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Xóa?", "Hủy", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+            cdHoiVienChoPTCtrl.deleteHoiVienChoPT(idNhanVien, idHocVien);
+            loadData();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void loadData() throws SQLException, ClassNotFoundException {

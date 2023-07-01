@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -26,9 +26,9 @@
               <Component id="jScrollPane1" pref="751" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButtonSuaNhanVien" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButtonThemNhanVien" alignment="0" pref="163" max="32767" attributes="0"/>
-                  <Component id="jButtonXoaNhanVien" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jButtonSuaGoiTap" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jButtonThemGoiTap" alignment="0" pref="163" max="32767" attributes="0"/>
+                  <Component id="jButtonXoaGoiTap" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -41,11 +41,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" alignment="0" min="-2" pref="552" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jButtonThemNhanVien" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="jButtonThemGoiTap" min="-2" pref="37" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButtonSuaNhanVien" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="jButtonSuaGoiTap" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButtonXoaNhanVien" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="jButtonXoaGoiTap" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="41" max="32767" attributes="0"/>
@@ -107,7 +107,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButtonThemNhanVien">
+    <Component class="javax.swing.JButton" name="jButtonThemGoiTap">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="99" green="ff" red="ff" type="rgb"/>
@@ -118,10 +118,10 @@
         <Property name="text" type="java.lang.String" value="Th&#xea;m g&#xf3;i t&#x1ead;p"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonThemNhanVienActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonThemGoiTapActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonSuaNhanVien">
+    <Component class="javax.swing.JButton" name="jButtonSuaGoiTap">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="99" green="ff" red="ff" type="rgb"/>
@@ -132,10 +132,10 @@
         <Property name="text" type="java.lang.String" value="S&#x1eed;a G&#xf3;i t&#x1ead;p"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSuaNhanVienActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSuaGoiTapActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonXoaNhanVien">
+    <Component class="javax.swing.JButton" name="jButtonXoaGoiTap">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="99" green="ff" red="ff" type="rgb"/>
@@ -146,7 +146,7 @@
         <Property name="text" type="java.lang.String" value="X&#xf3;a G&#xf3;i t&#x1ead;p"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonXoaNhanVienActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonXoaGoiTapActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

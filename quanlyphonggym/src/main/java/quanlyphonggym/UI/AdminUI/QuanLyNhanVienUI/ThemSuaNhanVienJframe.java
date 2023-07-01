@@ -4,6 +4,20 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI;
 
+import quanlyphonggym.Bean.NhanVienBean;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.CRUDNhanVienCtrl;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl.NhanVienCtrl;
+import quanlyphonggym.Models.NhanVien;
+import quanlyphonggym.Models.Role;
+import quanlyphonggym.Util.DateForm;
+
+import javax.swing.*;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author nguyenduc
@@ -13,8 +27,22 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
     /**
      * Creates new form ThemNhanVienJframe
      */
-    public ThemSuaNhanVienJframe() {
+    public ThemSuaNhanVienJframe() throws SQLException, ClassNotFoundException {
+        this.idNhanVien = -1;
         initComponents();
+        setLocationRelativeTo(null);
+        loadComboBox();
+    }
+
+    public ThemSuaNhanVienJframe(int ...idNhanVien) throws SQLException, ClassNotFoundException, ParseException {
+        initComponents();
+        setLocationRelativeTo(null);
+        loadComboBox();
+        if (idNhanVien.length > 0) {
+            this.idNhanVien = idNhanVien[0];
+            loadData();
+        }
+
     }
 
     /**
@@ -63,7 +91,7 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
         jLabel3.setText("Giới tính:");
 
         jComboBoxGioiTinh.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        jComboBoxGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
@@ -89,7 +117,7 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jLabel8.setText("Chức vụ:");
 
-        jComboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
         jButtonHuy.setBackground(new java.awt.Color(255, 255, 153));
         jButtonHuy.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
@@ -105,7 +133,13 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
         jButtonLuu.setText("Lưu");
         jButtonLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLuuActionPerformed(evt);
+                try {
+                    jButtonLuuActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -203,57 +237,91 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
 
     private void jButtonHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHuyActionPerformed
         // TODO add your handling code here:
-//        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Thoát?", "Thoát", JOptionPane.YES_NO_OPTION);
-//        if (confirmResult == JOptionPane.YES_OPTION) {
-//            dispose();
-//        }
+        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Thoát?", "Thoát", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_jButtonHuyActionPerformed
 
-    private void jButtonLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLuuActionPerformed
+    private void jButtonLuuActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonLuuActionPerformed
         // TODO add your handling code here:
-//        
-//
-//        ThemNhanKhauCtrl themNhanKhauCtrl = new ThemNhanKhauCtrl();
-//        if (themNhanKhauCtrl.addNewNhanKhau(nhanKhauBean, moiSinh)) {
-//            JOptionPane.showMessageDialog(null, "Thêm thành công");
-//            dispose();
-//        }
+        if (jTextMaNhanVien.getText().isEmpty()
+                || jTextDiaChi.getText().isEmpty()
+                || jTextSoDienThoai.getText().isEmpty()
+                || jTextHoTen.getText().isEmpty()
+        ) {
+            JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin");
+            return;
+        }
+        NhanVienBean nhanVienBean = new NhanVienBean();
+        NhanVien nhanVien = new NhanVien();
+        Role role = new Role();
+
+        String roleString = (String) jComboChucVu.getSelectedItem();
+        String[] parts = null;
+        parts = roleString.split("-");
+        int idrRole = Integer.parseInt(parts[0].trim());
+        role.setId(idrRole);
+        nhanVienBean.setRole(role);
+
+        nhanVien.setId(idNhanVien);
+        nhanVien.setHoTen(jTextHoTen.getText());
+        nhanVien.setMaNhanVien(jTextMaNhanVien.getText());
+        nhanVien.setNgaySinh(DateForm.returnDateString(jDateNgaySInh.getDate()));
+        nhanVien.setGioiTinh((String) jComboBoxGioiTinh.getSelectedItem());
+        nhanVien.setDiaChi(jTextDiaChi.getText());
+        nhanVien.setSoDienThoai(jTextSoDienThoai.getText());
+        nhanVien.setNgayVaoLam(DateForm.returnDateString(jDateNgayVaoLam.getDate()));
+        nhanVien.setIdRole(idrRole);
+
+        nhanVienBean.setNhanVien(nhanVien);
+
+        CRUDNhanVienCtrl crudNhanVienCtrl = new CRUDNhanVienCtrl();
+
+        if (this.idNhanVien == -1)
+        if (crudNhanVienCtrl.createNhanVien(nhanVienBean)) {
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+            QuanLyNhanVienPanel.loadData();
+            dispose();
+            return;
+        }
+        if (this.idNhanVien != -1)
+        if (crudNhanVienCtrl.updateNhanVien(nhanVienBean)) {
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+            QuanLyNhanVienPanel.loadData();
+            dispose();
+            return;
+        }
     }//GEN-LAST:event_jButtonLuuActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemSuaNhanVienJframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void loadComboBox() throws SQLException, ClassNotFoundException {
+        jComboChucVu.removeAllItems();
+        NhanVienCtrl nhanVienCtrl = new NhanVienCtrl();
+        List<Role> roles = nhanVienCtrl.getDanhSachRole();
+        for (int i = 0; i<roles.size(); i++) {
+            int id = roles.get(i).getId();
+            String ten = roles.get(i).getTenRole();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ThemSuaNhanVienJframe().setVisible(true);
-            }
-        });
+            String item = id+"-"+ten;
+            jComboChucVu.addItem(item);
+        }
+    }
+    private void loadData() throws SQLException, ClassNotFoundException, ParseException {
+        NhanVienCtrl nhanVienCtrl = new NhanVienCtrl();
+        NhanVienBean nhanVienBean = nhanVienCtrl.getNhanVienById(idNhanVien);
+
+        jTextMaNhanVien.setText(nhanVienBean.getNhanVien().getMaNhanVien());
+        jTextHoTen.setText(nhanVienBean.getNhanVien().getHoTen());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = dateFormat.parse(nhanVienBean.getNhanVien().getNgaySinh());
+        jDateNgaySInh.setDate(date);
+        jComboBoxGioiTinh.setSelectedItem(nhanVienBean.getNhanVien().getGioiTinh());
+        jTextDiaChi.setText(nhanVienBean.getNhanVien().getDiaChi());
+        jTextSoDienThoai.setText(nhanVienBean.getNhanVien().getSoDienThoai());
+        Date date1 = dateFormat.parse(nhanVienBean.getNhanVien().getNgayVaoLam());
+        jDateNgayVaoLam.setDate(date1);
+        String chucVu = nhanVienBean.getRole().getId()+"-"+nhanVienBean.getRole().getTenRole();
+        jComboChucVu.setSelectedItem(chucVu);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -277,4 +345,5 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
     private javax.swing.JTextField jTextMaNhanVien;
     private javax.swing.JTextField jTextSoDienThoai;
     // End of variables declaration//GEN-END:variables
+    private int idNhanVien;
 }

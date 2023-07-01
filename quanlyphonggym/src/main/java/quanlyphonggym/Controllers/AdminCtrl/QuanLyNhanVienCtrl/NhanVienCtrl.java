@@ -134,9 +134,31 @@ public class NhanVienCtrl {
             }
             return nhanVienBean;
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
+            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public List<Role> getDanhSachRole() throws SQLException, ClassNotFoundException {
+        List<Role> roles = new ArrayList<>();
+        Connection connection = MysqlConnection.getMysqlConnection();
+        try {
+            String sql = "SELECT * FROM role";
+            PreparedStatement prst = connection.prepareStatement(sql);
+            ResultSet rs = prst.executeQuery();
+            while (rs.next()) {
+                Role role = new Role();
+                role.setId(rs.getInt("id"));
+                role.setTenRole(rs.getString("tenRole"));
+
+                roles.add(role);
+            }
+            return roles;
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
+            System.out.println(e.getMessage());
+        }
+        return roles;
     }
 }

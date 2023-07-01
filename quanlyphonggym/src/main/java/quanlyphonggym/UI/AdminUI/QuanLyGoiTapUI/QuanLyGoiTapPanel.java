@@ -4,6 +4,18 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyGoiTapUI;
 
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyGoiTap.CRUDGoiTapCtrl;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyGoiTap.GoiTapCtrl;
+import quanlyphonggym.Models.GoiTap;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import java.sql.SQLException;
+import java.util.EventObject;
+import java.util.List;
+
 /**
  *
  * @author nguyenduc
@@ -13,8 +25,9 @@ public class QuanLyGoiTapPanel extends javax.swing.JPanel {
     /**
      * Creates new form QuanLyGoiTapPanel
      */
-    public QuanLyGoiTapPanel() {
+    public QuanLyGoiTapPanel() throws SQLException, ClassNotFoundException {
         initComponents();
+        loadData();
     }
 
     /**
@@ -28,31 +41,45 @@ public class QuanLyGoiTapPanel extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableGoiTap = new javax.swing.JTable();
-        jButtonThemNhanVien = new javax.swing.JButton();
-        jButtonSuaNhanVien = new javax.swing.JButton();
-        jButtonXoaNhanVien = new javax.swing.JButton();
+        jButtonThemGoiTap = new javax.swing.JButton();
+        jButtonSuaGoiTap = new javax.swing.JButton();
+        jButtonXoaGoiTap = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         jTableGoiTap.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
         jTableGoiTap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"fdds", "dsfgsd", "df", null},
-                {null, null, null, null},
-                {null, "dfdf", null, null},
-                {null, "dfdf", null, null}
+
             },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new String [] {
+                        "ID", "Tên gói tập", "Hình thức", "Giá tiền"
+                }
         ));
+        danhSachGoiTap = (DefaultTableModel) jTableGoiTap.getModel();
+        TableCellEditor nonEditableCellEditor = new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean isCellEditable(EventObject e) {
+                return false;
+            }
+        };
+        for (int column = 0; column < danhSachGoiTap.getColumnCount(); column++) {
+            TableColumn tableColumn = jTableGoiTap.getColumnModel().getColumn(column);
+            tableColumn.setCellEditor(nonEditableCellEditor);
+        }
         jTableGoiTap.setToolTipText("");
         jTableGoiTap.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTableGoiTap.setFocusable(false);
         jTableGoiTap.setRowHeight(30);
         jTableGoiTap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableGoiTapMouseClicked(evt);
+                try {
+                    jTableGoiTapMouseClicked(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jTableGoiTapMouseEntered(evt);
@@ -65,30 +92,48 @@ public class QuanLyGoiTapPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTableGoiTap);
 
-        jButtonThemNhanVien.setBackground(new java.awt.Color(255, 255, 153));
-        jButtonThemNhanVien.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        jButtonThemNhanVien.setText("Thêm gói tập");
-        jButtonThemNhanVien.addActionListener(new java.awt.event.ActionListener() {
+        jButtonThemGoiTap.setBackground(new java.awt.Color(255, 255, 153));
+        jButtonThemGoiTap.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        jButtonThemGoiTap.setText("Thêm gói tập");
+        jButtonThemGoiTap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonThemNhanVienActionPerformed(evt);
+                try {
+                    jButtonThemGoiTapActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
-        jButtonSuaNhanVien.setBackground(new java.awt.Color(255, 255, 153));
-        jButtonSuaNhanVien.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        jButtonSuaNhanVien.setText("Sửa Gói tập");
-        jButtonSuaNhanVien.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSuaGoiTap.setBackground(new java.awt.Color(255, 255, 153));
+        jButtonSuaGoiTap.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        jButtonSuaGoiTap.setText("Sửa Gói tập");
+        jButtonSuaGoiTap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSuaNhanVienActionPerformed(evt);
+                try {
+                    jButtonSuaGoiTapActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
-        jButtonXoaNhanVien.setBackground(new java.awt.Color(255, 255, 153));
-        jButtonXoaNhanVien.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        jButtonXoaNhanVien.setText("Xóa Gói tập");
-        jButtonXoaNhanVien.addActionListener(new java.awt.event.ActionListener() {
+        jButtonXoaGoiTap.setBackground(new java.awt.Color(255, 255, 153));
+        jButtonXoaGoiTap.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        jButtonXoaGoiTap.setText("Xóa Gói tập");
+        jButtonXoaGoiTap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonXoaNhanVienActionPerformed(evt);
+                try {
+                    jButtonXoaGoiTapActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -101,9 +146,9 @@ public class QuanLyGoiTapPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonSuaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonThemNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jButtonXoaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonSuaGoiTap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonThemGoiTap, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(jButtonXoaGoiTap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -113,23 +158,37 @@ public class QuanLyGoiTapPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonThemNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonThemGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonSuaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSuaGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonXoaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonXoaGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTableGoiTapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableGoiTapMouseClicked
+    public static void loadData() throws SQLException, ClassNotFoundException {
+        if (danhSachGoiTap.getRowCount()>0) danhSachGoiTap.setRowCount(0);
+        GoiTapCtrl goiTapCtrl = new GoiTapCtrl();
+        List<GoiTap> goiTaps = goiTapCtrl.getAllGoiTap();
+        for (int i = 0; i<goiTaps.size(); i++) {
+            int id = goiTaps.get(i).getId();
+            String tenGoi = goiTaps.get(i).getTenGoiTap();
+            String noiDung = goiTaps.get(i).getNoiDungHinhThuc();
+            int soTien = goiTaps.get(i).getSoTien();
+
+            Object[] row = {id, tenGoi, noiDung, soTien};
+            danhSachGoiTap.addRow(row);
+        }
+    }
+    private void jTableGoiTapMouseClicked(java.awt.event.MouseEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jTableGoiTapMouseClicked
         // TODO add your handling code here:
-        //        if (evt.getClickCount()==2) {
-            //            int row = jTableNhanVien.getSelectedRow();
-            //            int IdNhanKhau = (int) jTableNhanVien.getValueAt(row, 0);
-            //            ThongTinChiTietNhanKhau thongTinChiTietNhanKhau = new ThongTinChiTietNhanKhau(IdNhanKhau);
-            //            thongTinChiTietNhanKhau.setVisible(true);
-            //        }
+        if (evt.getClickCount()==2) {
+            int row = jTableGoiTap.getSelectedRow();
+            int idGoiTap = (int) danhSachGoiTap.getValueAt(row, 0);
+            ThongTinGoiTapJframe thongTinGoiTapJframe = new ThongTinGoiTapJframe(idGoiTap);
+            thongTinGoiTapJframe.setVisible(true);
+        }
     }//GEN-LAST:event_jTableGoiTapMouseClicked
 
     private void jTableGoiTapMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableGoiTapMouseEntered
@@ -140,30 +199,49 @@ public class QuanLyGoiTapPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTableGoiTapKeyPressed
 
-    private void jButtonThemNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemNhanVienActionPerformed
+    private void jButtonThemGoiTapActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonThemGoiTapActionPerformed
         // TODO add your handling code here:
-        //        ThemNhanKhauView themNhanKhauView = new ThemNhanKhauView();
-        //        themNhanKhauView.setVisible(true);
-    }//GEN-LAST:event_jButtonThemNhanVienActionPerformed
+        ThemSuaGoiTapJframe themSuaGoiTapJframe = new ThemSuaGoiTapJframe();
+        themSuaGoiTapJframe.setVisible(true);
 
-    private void jButtonSuaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaNhanVienActionPerformed
-        // TODO add your handling code here:
-        //        TamVangView tamVangView = new TamVangView();
-        //        tamVangView.setVisible(true);
-    }//GEN-LAST:event_jButtonSuaNhanVienActionPerformed
+    }//GEN-LAST:event_jButtonThemGoiTapActionPerformed
 
-    private void jButtonXoaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaNhanVienActionPerformed
+    private void jButtonSuaGoiTapActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonSuaGoiTapActionPerformed
         // TODO add your handling code here:
-        //        TamTruView tamTruView = new TamTruView();
-        //        tamTruView.setVisible(true);
-    }//GEN-LAST:event_jButtonXoaNhanVienActionPerformed
+        int row = jTableGoiTap.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Hãy chọn gói tập");
+            return;
+        }
+        int idGoiTap = (int) danhSachGoiTap.getValueAt(row, 0);
+        ThemSuaGoiTapJframe themSuaGoiTapJframe = new ThemSuaGoiTapJframe(idGoiTap);
+        themSuaGoiTapJframe.setVisible(true);
+    }//GEN-LAST:event_jButtonSuaGoiTapActionPerformed
+
+    private void jButtonXoaGoiTapActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonXoaGoiTapActionPerformed
+        // TODO add your handling code here:
+        int row = jTableGoiTap.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Hãy chọn gói tập");
+            return;
+        }
+        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Xóa?", "Thoát", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+            int idGoiTap = (int) danhSachGoiTap.getValueAt(row, 0);
+            CRUDGoiTapCtrl crudGoiTapCtrl = new CRUDGoiTapCtrl();
+            if (crudGoiTapCtrl.deleteGoiTap(idGoiTap)) {
+                loadData();
+            }
+        }
+    }//GEN-LAST:event_jButtonXoaGoiTapActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonSuaNhanVien;
-    private javax.swing.JButton jButtonThemNhanVien;
-    private javax.swing.JButton jButtonXoaNhanVien;
+    private javax.swing.JButton jButtonSuaGoiTap;
+    private javax.swing.JButton jButtonThemGoiTap;
+    private javax.swing.JButton jButtonXoaGoiTap;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableGoiTap;
     // End of variables declaration//GEN-END:variables
+    private static DefaultTableModel danhSachGoiTap;
 }

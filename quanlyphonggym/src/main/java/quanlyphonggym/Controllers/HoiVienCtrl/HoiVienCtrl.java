@@ -3,6 +3,7 @@ package quanlyphonggym.Controllers.HoiVienCtrl;
 import quanlyphonggym.Bean.HoiVienBean;
 import quanlyphonggym.Models.HoiVien;
 import quanlyphonggym.Models.LichSu;
+import quanlyphonggym.Models.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,4 +31,5 @@ public class HoiVienCtrl {
         //code
         return lichSus;
     }
+
 }

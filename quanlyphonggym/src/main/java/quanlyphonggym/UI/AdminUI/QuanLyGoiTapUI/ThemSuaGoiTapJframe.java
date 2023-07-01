@@ -4,6 +4,13 @@
  */
 package quanlyphonggym.UI.AdminUI.QuanLyGoiTapUI;
 
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyGoiTap.CRUDGoiTapCtrl;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyGoiTap.GoiTapCtrl;
+import quanlyphonggym.Models.GoiTap;
+
+import javax.swing.*;
+import java.sql.SQLException;
+
 /**
  *
  * @author nguyenduc
@@ -13,8 +20,14 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
     /**
      * Creates new form ThemSuaGoiTapJframe
      */
-    public ThemSuaGoiTapJframe() {
+    public ThemSuaGoiTapJframe(int ...idGoiTap) throws SQLException, ClassNotFoundException {
         initComponents();
+        setLocationRelativeTo(null);
+        if (idGoiTap.length > 0){
+            this.idGoiTap = idGoiTap[0];
+            loadData();
+        } else this.idGoiTap = -1; //mac dinh
+
     }
 
     /**
@@ -28,16 +41,17 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextTenGoiTap = new javax.swing.JTextField();
+        jTextTenGoiTap1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextNoiDungHinhhuc = new javax.swing.JTextArea();
+        jTextNoiDungHinhhuc1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        jTextGiaTien = new javax.swing.JTextField();
+        jTextGiaTien1 = new javax.swing.JTextField();
         jButtonHuy = new javax.swing.JButton();
         jButtonLuu = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Thêm/Sửa Gói tập");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -49,9 +63,9 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jLabel2.setText("Nội dung hình thức:");
 
-        jTextNoiDungHinhhuc.setColumns(20);
-        jTextNoiDungHinhhuc.setRows(5);
-        jScrollPane1.setViewportView(jTextNoiDungHinhhuc);
+        jTextNoiDungHinhhuc1.setColumns(20);
+        jTextNoiDungHinhhuc1.setRows(5);
+        jScrollPane1.setViewportView(jTextNoiDungHinhhuc1);
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
@@ -71,7 +85,13 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
         jButtonLuu.setText("Lưu");
         jButtonLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLuuActionPerformed(evt);
+                try {
+                    jButtonLuuActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -94,12 +114,12 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
                                     .addComponent(jButtonHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(jButtonLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jTextGiaTien, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jTextGiaTien1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(26, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextTenGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextTenGoiTap1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -108,7 +128,7 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextTenGoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextTenGoiTap1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,7 +136,7 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextGiaTien, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextGiaTien1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,23 +158,50 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void  loadData() throws SQLException, ClassNotFoundException {
+        GoiTapCtrl goiTapCtrl = new GoiTapCtrl();
+        GoiTap goiTap = goiTapCtrl.getGoiTapById(this.idGoiTap);
+        jTextTenGoiTap1.setText(goiTap.getTenGoiTap());
+        jTextGiaTien1.setText(String.valueOf(goiTap.getSoTien()));
+        jTextNoiDungHinhhuc1.setText(goiTap.getNoiDungHinhThuc());
+    }
     private void jButtonHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHuyActionPerformed
         // TODO add your handling code here:
-        //        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Thoát?", "Thoát", JOptionPane.YES_NO_OPTION);
-        //        if (confirmResult == JOptionPane.YES_OPTION) {
-            //            dispose();
-            //        }
+        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Thoát?", "Thoát", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_jButtonHuyActionPerformed
 
-    private void jButtonLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLuuActionPerformed
+    private void jButtonLuuActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonLuuActionPerformed
         // TODO add your handling code here:
-        //
-        //
-        //        ThemNhanKhauCtrl themNhanKhauCtrl = new ThemNhanKhauCtrl();
-        //        if (themNhanKhauCtrl.addNewNhanKhau(nhanKhauBean, moiSinh)) {
-            //            JOptionPane.showMessageDialog(null, "Thêm thành công");
-            //            dispose();
-            //        }
+        if (jTextGiaTien1.getText().isEmpty()
+        || jTextTenGoiTap1.getText().isEmpty()
+        || jTextNoiDungHinhhuc1.getText().isEmpty()
+        ) {
+            JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+            return;
+        }
+
+        CRUDGoiTapCtrl crudGoiTapCtrl = new CRUDGoiTapCtrl();
+        GoiTap goiTap = new GoiTap();
+        goiTap.setTenGoiTap(jTextTenGoiTap1.getText());
+        goiTap.setSoTien(Integer.parseInt(jTextGiaTien1.getText()));
+        goiTap.setId(this.idGoiTap);
+        goiTap.setNoiDungHinhThuc(jTextNoiDungHinhhuc1.getText());
+        if (this.idGoiTap == -1) {
+            if (crudGoiTapCtrl.createGoiTap(goiTap)) {
+                JOptionPane.showMessageDialog(null, "Thêm thành công");
+                QuanLyGoiTapPanel.loadData();
+                dispose();
+            }
+        } else {
+            if (crudGoiTapCtrl.updateGoiTap(goiTap)) {
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+                QuanLyGoiTapPanel.loadData();
+                dispose();
+            }
+        }
     }//GEN-LAST:event_jButtonLuuActionPerformed
 
     /**
@@ -187,7 +234,13 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThemSuaGoiTapJframe().setVisible(true);
+                try {
+                    new ThemSuaGoiTapJframe().setVisible(true);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
@@ -200,8 +253,9 @@ public class ThemSuaGoiTapJframe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextGiaTien;
-    private javax.swing.JTextArea jTextNoiDungHinhhuc;
-    private javax.swing.JTextField jTextTenGoiTap;
+    private javax.swing.JTextField jTextGiaTien1;
+    private javax.swing.JTextArea jTextNoiDungHinhhuc1;
+    private javax.swing.JTextField jTextTenGoiTap1;
     // End of variables declaration//GEN-END:variables
+    private int idGoiTap;
 }

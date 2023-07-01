@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.EventObject;
 import java.util.List;
 
@@ -99,7 +100,13 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         jButtonThemNhanVien.setText("Thêm Nhân Viên");
         jButtonThemNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonThemNhanVienActionPerformed(evt);
+                try {
+                    jButtonThemNhanVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -108,7 +115,15 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         jButtonSuaNhanVien.setText("Sửa Nhân Viên");
         jButtonSuaNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSuaNhanVienActionPerformed(evt);
+                try {
+                    jButtonSuaNhanVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -172,7 +187,7 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadData() throws SQLException, ClassNotFoundException {
+    public static void loadData() throws SQLException, ClassNotFoundException {
         if (danhSachNhanVien.getRowCount()>0) danhSachNhanVien.setRowCount(0);
         NhanVienCtrl nhanVienCtrl = new NhanVienCtrl();
         List<NhanVienBean> nhanVienBeans = nhanVienCtrl.getAllNhanVien();
@@ -208,16 +223,22 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTableNhanVienMouseEntered
 
-    private void jButtonThemNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemNhanVienActionPerformed
+    private void jButtonThemNhanVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonThemNhanVienActionPerformed
         // TODO add your handling code here:
-//        ThemNhanKhauView themNhanKhauView = new ThemNhanKhauView();
-//        themNhanKhauView.setVisible(true);
+        ThemSuaNhanVienJframe themSuaNhanVienJframe = new ThemSuaNhanVienJframe();
+        themSuaNhanVienJframe.setVisible(true);
     }//GEN-LAST:event_jButtonThemNhanVienActionPerformed
 
-    private void jButtonSuaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaNhanVienActionPerformed
+    private void jButtonSuaNhanVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException, ParseException {//GEN-FIRST:event_jButtonSuaNhanVienActionPerformed
         // TODO add your handling code here:
-//        TamVangView tamVangView = new TamVangView();
-//        tamVangView.setVisible(true);
+        int row = jTableNhanVien.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Hãy chọn nhân viên");
+            return;
+        }
+        int idNhanVien = (int) danhSachNhanVien.getValueAt(row, 0);
+        ThemSuaNhanVienJframe themSuaNhanVienJframe = new ThemSuaNhanVienJframe(idNhanVien);
+        themSuaNhanVienJframe.setVisible(true);
     }//GEN-LAST:event_jButtonSuaNhanVienActionPerformed
 
     private void jButtonXoaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaNhanVienActionPerformed
@@ -239,5 +260,5 @@ public class QuanLyNhanVienPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableNhanVien;
     // End of variables declaration//GEN-END:variables
-    private DefaultTableModel danhSachNhanVien;
+    private static DefaultTableModel danhSachNhanVien;
 }

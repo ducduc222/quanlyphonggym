@@ -2,7 +2,8 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Th&#xea;m/S&#x1eed;a G&#xf3;i t&#x1ead;p"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -60,7 +61,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jButtonLuu" min="-2" pref="83" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jTextGiaTien" min="-2" pref="401" max="-2" attributes="0"/>
+                                  <Component id="jTextGiaTien1" min="-2" pref="401" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -68,7 +69,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" pref="162" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jTextTenGoiTap" min="-2" pref="401" max="-2" attributes="0"/>
+                          <Component id="jTextTenGoiTap1" min="-2" pref="401" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -81,7 +82,7 @@
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jTextTenGoiTap" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="jTextTenGoiTap1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -91,7 +92,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jTextGiaTien" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="jTextGiaTien1" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="47" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -115,7 +116,7 @@
             <Property name="text" type="java.lang.String" value="T&#xea;n g&#xf3;i t&#x1ead;p:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextTenGoiTap">
+        <Component class="javax.swing.JTextField" name="jTextTenGoiTap1">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -135,7 +136,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextNoiDungHinhhuc">
+            <Component class="javax.swing.JTextArea" name="jTextNoiDungHinhhuc1">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -154,7 +155,7 @@
             <Property name="text" type="java.lang.String" value="Gi&#xe1; ti&#x1ec1;n:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextGiaTien">
+        <Component class="javax.swing.JTextField" name="jTextGiaTien1">
         </Component>
         <Component class="javax.swing.JButton" name="jButtonHuy">
           <Properties>

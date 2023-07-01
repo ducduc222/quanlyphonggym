@@ -4,6 +4,8 @@
  */
 package quanlyphonggym.UI.AdminUI;
 
+import quanlyphonggym.UI.AdminUI.QuanLyGoiTapUI.QuanLyGoiTapPanel;
+import quanlyphonggym.UI.AdminUI.QuanLyHoiVienUI.QuanLyHoiVienPanel;
 import quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI.QuanLyNhanVienPanel;
 
 import java.awt.*;
@@ -85,7 +87,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
         jButtonHoiVien.setText("QUẢN LÝ HỘI VIÊN");
         jButtonHoiVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonHoiVienActionPerformed(evt);
+                try {
+                    jButtonHoiVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -94,7 +102,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
         jButtonGoiTap.setText("QUẢN LÝ GÓI TẬP");
         jButtonGoiTap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGoiTapActionPerformed(evt);
+                try {
+                    jButtonGoiTapActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -193,18 +207,24 @@ public class AdminHomeUI extends javax.swing.JFrame {
         ParentPanel.repaint();
     }//GEN-LAST:event_jButtonNhanVienActionPerformed
 
-    private void jButtonHoiVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHoiVienActionPerformed
+    private void jButtonHoiVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonHoiVienActionPerformed
         // TODO add your handling code here:
-//        ThongKeView thongKeView = new ThongKeView();
-//        ParentPanel.removeAll();
-//        ParentPanel.setLayout(new BorderLayout());
-//        ParentPanel.add(thongKeView);
-//        ParentPanel.validate();
-//        ParentPanel.repaint();
+        QuanLyHoiVienPanel quanLyHoiVienPanel = new QuanLyHoiVienPanel();
+        ParentPanel.removeAll();
+        ParentPanel.setLayout(new BorderLayout());
+        ParentPanel.add(quanLyHoiVienPanel);
+        ParentPanel.validate();
+        ParentPanel.repaint();
     }//GEN-LAST:event_jButtonHoiVienActionPerformed
 
-    private void jButtonGoiTapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoiTapActionPerformed
+    private void jButtonGoiTapActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonGoiTapActionPerformed
         // TODO add your handling code here:
+        QuanLyGoiTapPanel quanLyGoiTapPanel = new QuanLyGoiTapPanel();
+        ParentPanel.removeAll();
+        ParentPanel.setLayout(new BorderLayout());
+        ParentPanel.add(quanLyGoiTapPanel);
+        ParentPanel.validate();
+        ParentPanel.repaint();
     }//GEN-LAST:event_jButtonGoiTapActionPerformed
 
     /**
