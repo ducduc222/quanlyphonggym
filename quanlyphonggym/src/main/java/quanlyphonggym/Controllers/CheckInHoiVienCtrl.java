@@ -40,12 +40,10 @@ public class CheckInHoiVienCtrl {
         try {
             //checkin
             String sqlCheckIn = "SELECT * FROM lichsu WHERE idHoiVien = "+idHoiVien
-                    +" and gioRa = '0000-00-00 00:00:00'";
+                    +" and gioRa = gioVao";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlCheckIn, Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSe2 = preparedStatement.executeQuery();
             if (resultSe2.next()) {
-                preparedStatement.close();
-
 
                 int idLichSu = resultSe2.getInt(1);
                 Instant time = Instant.now();

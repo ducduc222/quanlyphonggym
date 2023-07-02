@@ -82,7 +82,7 @@ public class PhanHoiCtrl {
                         +phanHoiBean.getPhanHoiCuaAdmin().getNoiDung() +"', '"
                         +ngayPhanHoi
                         +"')";
-            }
+             }
 
             PreparedStatement preparedStatement1 = connection.prepareStatement(sqlAD);
             preparedStatement1.execute();
