@@ -7,6 +7,7 @@ package quanlyphonggym.UI.AdminUI.QuanLyPhongTapUI;
 
 import quanlyphonggym.Bean.PhanHoiBean;
 import quanlyphonggym.Controllers.AdminCtrl.QuanLyHoiVienCtrl.PhanHoiCtrl;
+import quanlyphonggym.Models.PhanHoiCuaAdmin;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -20,11 +21,7 @@ public class PhanHoiPhongTapJframe extends javax.swing.JFrame {
     private static PhanHoiBean phanHoiBean;
 
     /** Creates new form PhanHoiPhongTapJframe */
-    public PhanHoiPhongTapJframe() throws SQLException, ClassNotFoundException {
-        initComponents();
-        setLocationRelativeTo(null);
-        loadData();
-    }
+
     public PhanHoiPhongTapJframe(int idPhanHoi) throws SQLException, ClassNotFoundException {
         this.idPhanHoi = idPhanHoi;
         initComponents();
@@ -39,6 +36,7 @@ public class PhanHoiPhongTapJframe extends javax.swing.JFrame {
         jLabelIDNhanVien.setText(String.valueOf(phanHoiBean.getPhanHoiCuaHoiVien().getId()));
         jTextAreaYKien.setText(phanHoiBean.getPhanHoiCuaHoiVien().getNoiDung());
         jTextAreaYKien.setEditable(false);
+        if (phanHoiBean.getPhanHoiCuaHoiVien().getIsDaPhanHoiLai())
         jTextAreaPhanHoi.setText(phanHoiBean.getPhanHoiCuaAdmin().getNoiDung());
     }
 
@@ -167,9 +165,12 @@ public class PhanHoiPhongTapJframe extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Hãy nhập câu trả lời");
             return;
         }
-        phanHoiBean.getPhanHoiCuaAdmin().setNoiDung(jTextAreaPhanHoi.getText());
+        PhanHoiCuaAdmin phanHoiCuaAdmin = new PhanHoiCuaAdmin();
+        phanHoiCuaAdmin.setNoiDung(jTextAreaPhanHoi.getText());
+        phanHoiBean.setPhanHoiCuaAdmin(phanHoiCuaAdmin);
         PhanHoiCtrl phanHoiCtrl = new PhanHoiCtrl();
         if (phanHoiCtrl.traLoiPhanHoi(phanHoiBean)) {
+            JOptionPane.showMessageDialog(null, "Đã trả lời");
             ThongTinChiTietPhongTapJframe.loadData();
             dispose();
         }

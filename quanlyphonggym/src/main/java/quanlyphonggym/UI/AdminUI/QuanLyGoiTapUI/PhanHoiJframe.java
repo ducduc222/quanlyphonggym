@@ -6,6 +6,7 @@ package quanlyphonggym.UI.AdminUI.QuanLyGoiTapUI;
 
 import quanlyphonggym.Bean.PhanHoiBean;
 import quanlyphonggym.Controllers.AdminCtrl.QuanLyHoiVienCtrl.PhanHoiCtrl;
+import quanlyphonggym.Models.PhanHoiCuaAdmin;
 import quanlyphonggym.UI.AdminUI.QuanLyHoiVienUI.ThongTinChiTietHoiVienJframe;
 
 import javax.swing.*;
@@ -156,9 +157,12 @@ public class PhanHoiJframe extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Hãy nhập câu trả lời");
             return;
         }
-        phanHoiBean.getPhanHoiCuaAdmin().setNoiDung(jTextAreaPhanHoi.getText());
+        PhanHoiCuaAdmin phanHoiCuaAdmin = new PhanHoiCuaAdmin();
+        phanHoiCuaAdmin.setNoiDung(jTextAreaPhanHoi.getText());
+        phanHoiBean.setPhanHoiCuaAdmin(phanHoiCuaAdmin);
         PhanHoiCtrl phanHoiCtrl = new PhanHoiCtrl();
         if (phanHoiCtrl.traLoiPhanHoi(phanHoiBean)) {
+            JOptionPane.showMessageDialog(null, "Đã phản hồi");
             ThongTinChiTietHoiVienJframe.loadData();
             dispose();
         }
@@ -180,7 +184,7 @@ public class PhanHoiJframe extends javax.swing.JFrame {
         jLabelIDNhanVien.setText(String.valueOf(phanHoiBean.getPhanHoiCuaHoiVien().getId()));
         jTextAreaYKien.setText(phanHoiBean.getPhanHoiCuaHoiVien().getNoiDung());
         jTextAreaYKien.setEditable(false);
-        jTextAreaPhanHoi.setText(phanHoiBean.getPhanHoiCuaAdmin().getNoiDung());
+        if (phanHoiBean.getPhanHoiCuaHoiVien().getIsDaPhanHoiLai() == true) jTextAreaPhanHoi.setText(phanHoiBean.getPhanHoiCuaAdmin().getNoiDung());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

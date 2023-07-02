@@ -10,9 +10,23 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CRUDPhongTapCtrl {
-    public boolean createPhongTap(PhongTapBean phongTapBean) throws SQLException, ClassNotFoundException {
+    public boolean createPhongTap(PhongTap phongTap) throws SQLException, ClassNotFoundException {
         Connection connection = MysqlConnection.getMysqlConnection();
+        try {
+            String sql = "INSERT INTO phongtap(maPhong, tenPhong) VALUES(?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, phongTap.getMaPhong());
+            preparedStatement.setString(2, phongTap.getTenPhong());
 
+            preparedStatement.execute();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
+            System.out.println(e.getMessage());
+            return false;
+        }
+        connection.close();
         return true;
     }
     public boolean updatePhongTap(PhongTap phongTap) throws SQLException, ClassNotFoundException {
@@ -33,8 +47,8 @@ public class CRUDPhongTapCtrl {
         connection.close();
         return true;
     }
-    public boolean delettePhongTap(int idPhongTap) {
-        // xóa phòng tập, thiết bị phòng tập, danh sách nhân viên
-        return true;
+    public boolean delettePhongTap(int idPhongTap) throws SQLException, ClassNotFoundException {
+        JOptionPane.showMessageDialog(null, "Phòng tập đang đưa vào sử dụng. Không thể xóa");
+        return false;
     }
 }

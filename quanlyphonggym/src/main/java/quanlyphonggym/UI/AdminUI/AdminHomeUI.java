@@ -21,9 +21,15 @@ public class AdminHomeUI extends javax.swing.JFrame {
     /**
      * Creates new form AdminHomeUI
      */
-    public AdminHomeUI() {
+    public AdminHomeUI() throws SQLException, ClassNotFoundException {
         initComponents();
         setLocationRelativeTo(null);
+        QuanLyHoiVienPanel quanLyHoiVienPanel = new QuanLyHoiVienPanel();
+        ParentPanel.removeAll();
+        ParentPanel.setLayout(new BorderLayout());
+        ParentPanel.add(quanLyHoiVienPanel);
+        ParentPanel.validate();
+        ParentPanel.repaint();
     }
 
     /**
@@ -55,7 +61,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
         jButtonTrangChu.setText("TRANG CHỦ");
         jButtonTrangChu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTrangChuActionPerformed(evt);
+                try {
+                    jButtonTrangChuActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -184,14 +196,14 @@ public class AdminHomeUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTrangChuActionPerformed
+    private void jButtonTrangChuActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonTrangChuActionPerformed
         // TODO add your handling code here:
-//        HomePanel homePanel = new HomePanel();
-//        ParentPanel.removeAll();
-//        ParentPanel.setLayout(new BorderLayout());
-//        ParentPanel.add(homePanel);
-//        ParentPanel.validate();
-//        ParentPanel.repaint();
+        QuanLyHoiVienPanel quanLyHoiVienPanel = new QuanLyHoiVienPanel();
+        ParentPanel.removeAll();
+        ParentPanel.setLayout(new BorderLayout());
+        ParentPanel.add(quanLyHoiVienPanel);
+        ParentPanel.validate();
+        ParentPanel.repaint();
     }//GEN-LAST:event_jButtonTrangChuActionPerformed
 
     private void jButtonPhongTapActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonPhongTapActionPerformed

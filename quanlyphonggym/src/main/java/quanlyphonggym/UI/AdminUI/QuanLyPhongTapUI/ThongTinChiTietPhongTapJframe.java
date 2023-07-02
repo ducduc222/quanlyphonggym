@@ -5,8 +5,11 @@
 package quanlyphonggym.UI.AdminUI.QuanLyPhongTapUI;
 
 import quanlyphonggym.Bean.PhongTapBean;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyPhongTapCtrl.CDNhanVienPhongTapCtrl;
+import quanlyphonggym.Controllers.AdminCtrl.QuanLyPhongTapCtrl.CDThietBiPhongTapCtrl;
 import quanlyphonggym.Controllers.AdminCtrl.QuanLyPhongTapCtrl.PhongTapCtrl;
 import quanlyphonggym.UI.AdminUI.QuanLyGoiTapUI.PhanHoiJframe;
+import quanlyphonggym.UI.AdminUI.QuanLyNhanVienUI.ThemSuaNhanVienJframe;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +24,7 @@ import java.util.EventObject;
  */
 public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
 
-    private int idPhong;
+    private static int idPhong;
     private static DefaultTableModel danhSachPhanHoi;
     private static DefaultTableModel danhSachThietBi;
     private static DefaultTableModel danhSachNhanVien;
@@ -29,12 +32,7 @@ public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
     /**
      * Creates new form ThongTinChiTietPhongTapJframe
      */
-    public ThongTinChiTietPhongTapJframe() throws SQLException, ClassNotFoundException {
-        this.idPhong = 1;
-        initComponents();
 
-        loadData();
-    }
     public ThongTinChiTietPhongTapJframe(int idPhong) throws SQLException, ClassNotFoundException {
         this.idPhong = idPhong;
         initComponents();
@@ -47,7 +45,7 @@ public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
 
     public static void loadData() throws SQLException, ClassNotFoundException {
         PhongTapCtrl phongTapCtrl = new PhongTapCtrl();
-        PhongTapBean phongTapBean = phongTapCtrl.getPhongTapById(1);
+        PhongTapBean phongTapBean = phongTapCtrl.getPhongTapById(idPhong);
 
         //phongtap
         jTextIdPhong.setText(String.valueOf(phongTapBean.getPhongTap().getId()));
@@ -263,7 +261,13 @@ public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
         jButtonXoaThietBi.setText("Xóa thiết bị");
         jButtonXoaThietBi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonXoaThietBiActionPerformed(evt);
+                try {
+                    jButtonXoaThietBiActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -272,7 +276,13 @@ public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
         jButtonThemNhanVien.setText("Thêm nhân viên");
         jButtonThemNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonThemNhanVienActionPerformed(evt);
+                try {
+                    jButtonThemNhanVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -281,7 +291,13 @@ public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
         jButtonXoaNhanVien.setText("Xóa nhân viên");
         jButtonXoaNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonXoaNhanVienActionPerformed(evt);
+                try {
+                    jButtonXoaNhanVienActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -421,23 +437,52 @@ public class ThongTinChiTietPhongTapJframe extends javax.swing.JFrame {
 
     private void jTableNhanVienMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNhanVienMouseEntered
         // TODO add your handling code here:
+
     }//GEN-LAST:event_jTableNhanVienMouseEntered
 
     private void jButtonThemThietiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemThietiActionPerformed
         // TODO add your handling code here:
-       
+       ThemThietBiJframe themThietBiJframe = new ThemThietBiJframe(idPhong);
+       themThietBiJframe.setVisible(true);
     }//GEN-LAST:event_jButtonThemThietiActionPerformed
 
-    private void jButtonXoaThietBiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaThietBiActionPerformed
+    private void jButtonXoaThietBiActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonXoaThietBiActionPerformed
         // TODO add your handling code here:
+        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Xóa?", "Xóa", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+            int row = jTableThietBi.getSelectedRow();
+            int idThietBi = (int)jTableThietBi.getValueAt(row, 0);
+            CDThietBiPhongTapCtrl cdThietBiPhongTapCtrl = new CDThietBiPhongTapCtrl();
+            if (cdThietBiPhongTapCtrl.deleteThietBiPhongTap(idThietBi)) {
+                loadData();
+            }
+        }
     }//GEN-LAST:event_jButtonXoaThietBiActionPerformed
 
-    private void jButtonThemNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemNhanVienActionPerformed
+    private void jButtonThemNhanVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonThemNhanVienActionPerformed
         // TODO add your handling code here:
+        DanhSachNhanVienJframe danhSachNhanVienJframe = new DanhSachNhanVienJframe(idPhong);
+        danhSachNhanVienJframe.setVisible(true);
     }//GEN-LAST:event_jButtonThemNhanVienActionPerformed
 
-    private void jButtonXoaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaNhanVienActionPerformed
+    private void jButtonXoaNhanVienActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonXoaNhanVienActionPerformed
         // TODO add your handling code here:
+        int confirmResult = JOptionPane.showConfirmDialog(null, "Xác nhận Xóa?", "Xóa", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+
+            CDNhanVienPhongTapCtrl cdNhanVienPhongTapCtrl = new CDNhanVienPhongTapCtrl();
+
+            int row = jTableNhanVien.getSelectedRow();
+            if (row < 0 ) {
+                JOptionPane.showMessageDialog(null, "Hãy chọn nhân viên");
+                return;
+            }
+            int idNhanVien = (int)jTableNhanVien.getValueAt(row, 0);
+            if (cdNhanVienPhongTapCtrl.deleteNhanVienPhongTap(idPhong, idNhanVien)) {
+                JOptionPane.showMessageDialog(null, "Xóa thành công");
+                loadData();
+            }
+        }
     }//GEN-LAST:event_jButtonXoaNhanVienActionPerformed
 
     private void jTablePhanHoiMouseClicked(java.awt.event.MouseEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jTablePhanHoiMouseClicked

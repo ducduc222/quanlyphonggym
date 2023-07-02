@@ -31,7 +31,7 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
         loadData();
     }
 
-    private void loadData() throws SQLException, ClassNotFoundException {
+    public static void loadData() throws SQLException, ClassNotFoundException {
         jButtonLuu.setEnabled(true);
         jButtonLuu.setBackground(new Color(255, 255, 255));
         if (danhSachPhongTap.getRowCount()>0) danhSachPhongTap.setRowCount(0);
@@ -67,6 +67,7 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
         jTextTenPhong = new javax.swing.JTextField();
         jButtonChinhSua = new javax.swing.JButton();
         jButtonLuu = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -185,30 +186,43 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 204));
+        jButton1.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        jButton1.setText("Thêm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonChinhSua)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonChinhSua)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,7 +242,7 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
         jTextMaPhong.requestFocus();
         jTextTenPhong.setEditable(true);
 
-        jButtonLuu.setEnabled(false);
+        jButtonLuu.setEnabled(true);
         jButtonLuu.setBackground(new Color(255, 255, 242));
 
     }//GEN-LAST:event_jButtonChinhSuaActionPerformed
@@ -244,7 +258,8 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
 
             CRUDPhongTapCtrl crudPhongTapCtrl = new CRUDPhongTapCtrl();
             if (crudPhongTapCtrl.updatePhongTap(phongTap)) {
-
+                jButtonLuu.setEnabled(false);
+                jButtonLuu.setBackground(new Color(255, 255, 255));
                 loadData();
             }
         }
@@ -267,10 +282,17 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTablePhongTapMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        ThemPhongTapJframe themPhongTapJframe = new ThemPhongTapJframe();
+        themPhongTapJframe.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonChinhSua;
-    private javax.swing.JButton jButtonLuu;
+    private static javax.swing.JButton jButtonLuu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -282,5 +304,5 @@ public class QuanLyPhongTapPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jTextMaPhong;
     private javax.swing.JTextField jTextTenPhong;
     // End of variables declaration//GEN-END:variables
-    private DefaultTableModel danhSachPhongTap;
+    private static DefaultTableModel danhSachPhongTap;
 }

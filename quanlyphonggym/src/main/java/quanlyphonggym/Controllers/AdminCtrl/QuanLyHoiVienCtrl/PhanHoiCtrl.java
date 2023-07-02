@@ -60,7 +60,7 @@ public class PhanHoiCtrl {
         Connection connection = MysqlConnection.getMysqlConnection();
 
         try {
-            String sqlHV = "UPDATE phanhoicuahoivien SET isDaPhanHoiLai = 1";
+            String sqlHV = "UPDATE phanhoicuahoivien SET isDaPhanHoiLai = 1 WHERE id = "+ phanHoiBean.getPhanHoiCuaHoiVien().getId();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlHV);
             preparedStatement.execute();
             preparedStatement.close();
