@@ -3,6 +3,7 @@ package quanlyphonggym.Controllers.AdminCtrl.QuanLyNhanVienCtrl;
 import quanlyphonggym.Bean.NhanVienBean;
 import quanlyphonggym.Models.NhanVien;
 import quanlyphonggym.MysqlConnection;
+import quanlyphonggym.Util.CheckSoDienThoai;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,10 @@ import javax.swing.JOptionPane;
 public class CRUDNhanVienCtrl {
     public boolean createNhanVien(NhanVienBean nhanVienBean) throws SQLException, ClassNotFoundException {
         Connection connection = MysqlConnection.getMysqlConnection();
+        if (!CheckSoDienThoai.checkSoDienThoai(nhanVienBean.getNhanVien().getSoDienThoai())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 chữ số và không chứa kí tự khác ngoài 0-9");
+            return false;
+        }
         
         try {
             String sql = "INSERT INTO nhanvien (maNhanVien,hoTen,ngaySinh,gioiTinh,diaChi,soDienThoai,ngayVaoLam,idRole)"

@@ -228,6 +228,17 @@ public class RegisterUI extends javax.swing.JFrame {
 
     private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {//GEN-FIRST:event_jButtonRegisterActionPerformed
         // TODO add your handling code here:
+        if (jTextUserName.getText().isEmpty()
+        ||jPassword.getPassword() == null
+        ||jTextMaHocVien.getText().isEmpty()
+        ||jTextHoTen.getText().isEmpty()
+        ||jTextNgheNghiep.getText().isEmpty()
+        ||jTextDiaChi.getText().isEmpty()
+        ||jTextSoDienThoai.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Hãy nhập đủ các thông tin");
+            return;
+        }
+
         HoiVien hoiVien = new HoiVien();
         hoiVien.setMaHoiVien(jTextMaHocVien.getText());
         hoiVien.setHoTen(jTextHoTen.getText());

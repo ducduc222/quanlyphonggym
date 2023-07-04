@@ -261,7 +261,9 @@ public class ThemSuaNhanVienJframe extends javax.swing.JFrame {
         String[] parts = null;
         parts = roleString.split("-");
         int idrRole = Integer.parseInt(parts[0].trim());
+        String tenRole = parts[1].trim();
         role.setId(idrRole);
+        role.setTenRole(tenRole);
         nhanVienBean.setRole(role);
 
         nhanVien.setId(idNhanVien);
