@@ -6,6 +6,7 @@ import quanlyphonggym.Models.HoiVien;
 import quanlyphonggym.Models.LichSu;
 import quanlyphonggym.Models.Role;
 import quanlyphonggym.MysqlConnection;
+import quanlyphonggym.Util.CheckSoDienThoai;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -49,6 +50,10 @@ public class HoiVienCtrl {
 
     public boolean updateThongTinCaNhan(HoiVien hoiVien) throws SQLException, ClassNotFoundException {
         //code
+        if (!CheckSoDienThoai.checkSoDienThoai(hoiVien.getSoDienThoai())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 chữ số và không chứa kí tự khác ngoài 0-9");
+            return false;
+        }
         Connection connection = MysqlConnection.getMysqlConnection();
         try {
             String sql = "UPDATE hoivien SET "

@@ -46,7 +46,10 @@ public class CRUDNhanVienCtrl {
     public boolean updateNhanVien(NhanVienBean nhanVienBean) throws SQLException, ClassNotFoundException {
         //code
         Connection connection = MysqlConnection.getMysqlConnection();
-
+        if (!CheckSoDienThoai.checkSoDienThoai(nhanVienBean.getNhanVien().getSoDienThoai())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 chữ số và không chứa kí tự khác ngoài 0-9");
+            return false;
+        }
         try {
             // check học viên đang dạy nếu là PT
             if (!nhanVienBean.getRole().getTenRole().equals("PT")) {
